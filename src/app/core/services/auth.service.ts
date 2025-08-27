@@ -10,25 +10,27 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  // Login recibe email y password, retorna el token
+  // 🔑 Login
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, {
-      email: email,
-      password: password
-    });
+    return this.http.post(`${this.apiUrl}/login`, { email, password });
   }
 
-  // Obtiene el token actual
+  // 📝 Registro de pacientes
+  register(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, data);
+  }
+
+  // Obtener token actual
   getToken(): string | null {
     return localStorage.getItem('token');
   }
 
-  // Verifica si hay sesión activa
+  // Verificar si hay sesión activa
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
 
-  // Cierra sesión
+  // Cerrar sesión
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('roles');

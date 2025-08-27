@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -33,21 +33,26 @@ export class LoginComponent {
         // 1. Guardar token
         localStorage.setItem('token', response.token);
 
-        // 2. Llamar a /api/user/me para obtener los roles
-        this.http.get('http://localhost:8080/api/user/me').subscribe({
+        // 2. Preparar headers con token para /api/user/me
+        const headers = new HttpHeaders({
+          Authorization: `Bearer ${response.token}`
+        });
+
+        this.http.get('http://localhost:8080/api/user/me', { headers }).subscribe({
           next: (user: any) => {
             console.log("👤 Datos de usuario:", user);
 
             // Guardar roles en localStorage
-            localStorage.setItem('roles', JSON.stringify(user.roles));
+            const roles = Array.isArray(user.roles) ? user.roles : [user.roles];
+            localStorage.setItem('roles', JSON.stringify(roles));
 
             // 3. Redirigir según rol
-            if (user.roles.includes('ROLE_ADMIN')) {
+            if (roles.includes('ROLE_ADMIN')) {
               this.router.navigate(['/admin']);
-            } else if (user.roles.includes('ROLE_MEDICO')) {
-              this.router.navigate(['/medicos/list']);
-            } else if (user.roles.includes('ROLE_PACIENTE')) {
-              this.router.navigate(['/pacientes/list']);
+            } else if (roles.includes('ROLE_MEDICO')) {
+              this.router.navigate(['/medicos']);
+            } else if (roles.includes('ROLE_PACIENTE')) {
+              this.router.navigate(['/pacientes']);
             } else {
               this.router.navigate(['/auth/login']);
             }
