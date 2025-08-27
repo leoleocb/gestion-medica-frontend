@@ -1,5 +1,64 @@
-<div class="container mt-4">
-  <h3>📂 Mi Expediente</h3>
-  <p><strong>Diagnóstico:</strong> {{ expediente.diagnostico }}</p>
-  <p><strong>Tratamiento:</strong> {{ expediente.tratamiento }}</p>
+<div class="card mt-3 shadow">
+  <div class="card-header bg-info text-white">
+    <h3>
+      <i class="bi bi-clipboard2-pulse"></i>
+      Mi Expediente
+    </h3>
+  </div>
+  <div class="card-body" *ngIf="expediente; else noData">
+    <h5>
+      <i class="bi bi-person-fill"></i>
+      {{ expediente.nombrePaciente }} - DNI: {{ expediente.numeroIdentificacion }}
+    </h5>
+    <p *ngIf="expediente.fechaNacimiento">
+      <strong>Fecha de nacimiento:</strong> {{ expediente.fechaNacimiento }}
+    </p>
+
+    <!-- Alergias -->
+    <div *ngIf="expediente.alergias?.length > 0">
+      <h5><i class="bi bi-exclamation-triangle"></i> Alergias</h5>
+      <ul>
+        <li *ngFor="let a of expediente.alergias">
+          {{ a.nombre }} - {{ a.descripcion }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Enfermedades -->
+    <div *ngIf="expediente.enfermedades?.length > 0">
+      <h5><i class="bi bi-heart-pulse"></i> Enfermedades</h5>
+      <ul>
+        <li *ngFor="let e of expediente.enfermedades">
+          {{ e.nombre }} - {{ e.descripcion }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Citas -->
+    <div *ngIf="expediente.citas?.length > 0">
+      <h5><i class="bi bi-calendar-event"></i> Citas</h5>
+      <table class="table table-bordered">
+        <thead class="table-light">
+          <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Motivo</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of expediente.citas">
+            <td>{{ c.fecha }}</td>
+            <td>{{ c.hora }}</td>
+            <td>{{ c.motivo }}</td>
+            <td>{{ c.estado }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <ng-template #noData>
+    <p class="text-center">No tienes registros en tu expediente.</p>
+  </ng-template>
 </div>

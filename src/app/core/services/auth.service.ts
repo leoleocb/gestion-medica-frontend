@@ -20,9 +20,20 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/register`, data);
   }
 
+  // Guardar token y roles
+  saveSession(token: string, roles: string[]) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('roles', JSON.stringify(roles));
+  }
+
   // Obtener token actual
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  // Obtener roles actuales
+  getUserRoles(): string[] {
+    return JSON.parse(localStorage.getItem('roles') || '[]');
   }
 
   // Verificar si hay sesión activa

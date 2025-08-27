@@ -1,19 +1,63 @@
 <div class="container mt-4">
-  <h3>📅 Mis Citas</h3>
-  <table class="table table-striped mt-3">
-    <thead>
-      <tr>
-        <th>Fecha</th>
-        <th>Médico</th>
-        <th>Estado</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let cita of citas">
-        <td>{{ cita.fecha }}</td>
-        <td>{{ cita.medico?.nombre }}</td>
-        <td>{{ cita.estado }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="card shadow-lg border-0">
+    <div class="card-header bg-primary text-white">
+      <h3 class="mb-0">📅 Mis Citas</h3>
+    </div>
+    <div class="card-body">
+      
+      <!-- Error -->
+      <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+      <!-- Nueva cita -->
+      <form (ngSubmit)="crearCita()" class="row g-3 mb-4">
+        <div class="col-md-4">
+          <label class="form-label">Fecha</label>
+          <input type="date" class="form-control" [(ngModel)]="nuevaCita.fecha" name="fecha" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Hora</label>
+          <input type="time" class="form-control" [(ngModel)]="nuevaCita.hora" name="hora" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Motivo</label>
+          <input type="text" class="form-control" [(ngModel)]="nuevaCita.motivo" name="motivo" required>
+        </div>
+        <div class="col-12 text-end">
+          <button type="submit" class="btn btn-success">Agendar Cita</button>
+        </div>
+      </form>
+
+      <!-- Lista de citas -->
+      <table class="table table-hover table-bordered align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Motivo</th>
+            <th>Médico</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cita of citas">
+            <td>{{ cita.fecha }}</td>
+            <td>{{ cita.hora }}</td>
+            <td>{{ cita.motivo }}</td>
+            <td>{{ cita.medico?.nombre }}</td>
+            <td>
+              <span [ngClass]="{
+                'badge bg-success': cita.estado === 'COMPLETADA',
+                'badge bg-danger': cita.estado === 'CANCELADA',
+                'badge bg-warning text-dark': cita.estado === 'PROGRAMADA'
+              }">{{ cita.estado }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="citas.length === 0" class="text-muted text-center">
+        No tienes citas registradas.
+      </div>
+    </div>
+  </div>
 </div>

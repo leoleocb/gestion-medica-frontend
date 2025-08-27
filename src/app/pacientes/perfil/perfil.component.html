@@ -1,6 +1,47 @@
 <div class="container mt-4">
-  <h3>👤 Mi Perfil</h3>
-  <p><strong>Nombre:</strong> {{ paciente.nombre }}</p>
-  <p><strong>Email:</strong> {{ paciente.email }}</p>
-  <p><strong>DNI:</strong> {{ paciente.numeroIdentificacion }}</p>
+  <div class="card shadow-lg border-0 rounded-3">
+    <div class="card-header bg-primary text-white text-center">
+      <h3 class="mb-0">👤 Mi Perfil</h3>
+    </div>
+
+    <div class="card-body">
+      <!-- Error -->
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Datos -->
+      <div *ngIf="paciente" class="row">
+        <div class="col-md-4 text-center">
+          <img src="https://cdn-icons-png.flaticon.com/512/387/387561.png"
+               class="img-fluid rounded-circle shadow-sm mb-3"
+               alt="avatar"
+               width="120">
+        </div>
+        <div class="col-md-8">
+          <table class="table table-borderless">
+            <tbody>
+              <tr>
+                <th class="text-muted">Nombre:</th>
+                <td>{{ paciente.nombre }}</td>
+              </tr>
+              <tr>
+                <th class="text-muted">Email:</th>
+                <td>{{ paciente.email }}</td>
+              </tr>
+              <tr>
+                <th class="text-muted">DNI:</th>
+                <td>{{ paciente.numeroIdentificacion }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div *ngIf="!paciente && !errorMessage" class="text-center text-muted">
+        Cargando datos del perfil...
+      </div>
+    </div>
+  </div>
 </div>

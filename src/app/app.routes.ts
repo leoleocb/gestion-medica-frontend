@@ -11,7 +11,7 @@ export const routes: Routes = [
       import('./auth/auth.module').then((m) => m.AuthModule),
   },
 
-  // ADMIN: accede al panel completo
+  // ADMIN
   {
     path: 'admin',
     loadChildren: () =>
@@ -20,21 +20,24 @@ export const routes: Routes = [
     data: { roles: ['ROLE_ADMIN'] }
   },
 
-  // ❌ Quitar estos mientras no tengas módulos separados
-  // {
-  //   path: 'medicos',
-  //   loadChildren: () =>
-  //     import('./medicos/medicos.module').then((m) => m.MedicosModule),
-  //   canActivate: [AuthGuard],
-  //   data: { roles: ['ROLE_MEDICO', 'ROLE_ADMIN'] }
-  // },
-  // {
-  //   path: 'pacientes',
-  //   loadChildren: () =>
-  //     import('./pacientes/pacientes.module').then((m) => m.PacientesModule),
-  //   canActivate: [AuthGuard],
-  //   data: { roles: ['ROLE_PACIENTE', 'ROLE_ADMIN'] }
-  // },
+  // MÉDICOS
+  {
+    path: 'medicos',
+    loadChildren: () =>
+      import('./medicos/medicos.module').then((m) => m.MedicosModule),
+    canActivate: [AuthGuard],
+    data: { roles: ['ROLE_MEDICO', 'ROLE_ADMIN'] }
+  },
+
+  // PACIENTES
+  {
+    path: 'pacientes',
+    loadChildren: () =>
+      import('./pacientes/paciente.module').then((m) => m.PacientesModule),
+    canActivate: [AuthGuard],
+    data: { roles: ['ROLE_PACIENTE', 'ROLE_ADMIN'] }
+  },
+
 
   // Rutas desconocidas
   { path: '**', redirectTo: '/auth/login' }

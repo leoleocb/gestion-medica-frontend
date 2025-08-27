@@ -1,12 +1,21 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-paciente-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [RouterModule],
   templateUrl: './paciente-navbar.component.html',
   styleUrls: ['./paciente-navbar.component.css']
 })
-export class PacienteNavbarComponent {}
+export class PacienteNavbarComponent {
+
+  constructor(private router: Router) {}
+
+  onLogout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('roles');
+    this.router.navigate(['/auth/login']);
+  }
+}

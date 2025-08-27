@@ -1,24 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ExpedientesService } from '../../core/services/expedientes.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-expediente',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './expediente.component.html',
-  styleUrls: ['./expediente.component.css']
+  templateUrl: './expediente.component.html'
 })
 export class ExpedienteComponent implements OnInit {
-  expediente: any = {};
+  expediente: any =null;
+  errorMessage = '';
 
-  constructor(private expedientesService: ExpedientesService) {}
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    const pacienteId = 1;
-    this.expedientesService.getByPaciente(pacienteId).subscribe({
-      next: (data) => this.expediente = data,
-      error: (err) => console.error('❌ Error al cargar expediente', err)
+    this.loadExpediente();
+  }
+
+  loadExpediente() {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    this.http.get('http://localhost:8080/api/expedientes/mis-expedientes', { headers }).subscribe({
+      next: (data: any) => this.expediente = data,
+      error: () => this.errorMessage = 'No se pudo cargar el expediente'
     });
   }
 }

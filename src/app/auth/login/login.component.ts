@@ -30,23 +30,18 @@ export class LoginComponent {
       next: (response: any) => {
         console.log("✅ Login OK, backend respondió:", response);
 
-        // 1. Guardar token
-        localStorage.setItem('token', response.token);
+        const token = response.token;
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-        // 2. Preparar headers con token para /api/user/me
-        const headers = new HttpHeaders({
-          Authorization: `Bearer ${response.token}`
-        });
-
+        // Obtener info de usuario y roles
         this.http.get('http://localhost:8080/api/user/me', { headers }).subscribe({
           next: (user: any) => {
             console.log("👤 Datos de usuario:", user);
 
-            // Guardar roles en localStorage
             const roles = Array.isArray(user.roles) ? user.roles : [user.roles];
-            localStorage.setItem('roles', JSON.stringify(roles));
+            this.authService.saveSession(token, roles);
 
-            // 3. Redirigir según rol
+            // Redirigir según rol
             if (roles.includes('ROLE_ADMIN')) {
               this.router.navigate(['/admin']);
             } else if (roles.includes('ROLE_MEDICO')) {
