@@ -12,6 +12,8 @@ import { MedicosService } from '../../../core/services/medicos.service';
 export class CreateComponent {
   medico = {
     nombre: '',
+    apellido: '',
+    email: '',
     especialidad: '',
     numeroLicencia: '',
     telefono: ''
@@ -19,14 +21,14 @@ export class CreateComponent {
 
   constructor(private medicosService: MedicosService, private router: Router) {}
 
-  onSubmit() {
+  guardarMedico() {
     this.medicosService.create(this.medico).subscribe({
       next: () => {
         alert('✅ Médico registrado correctamente');
         this.router.navigate(['/admin/medicos']);
       },
       error: (err: any) => {
-        console.error(err);
+        console.error('Error al registrar médico', err);
         alert('❌ Error al registrar médico');
       }
     });

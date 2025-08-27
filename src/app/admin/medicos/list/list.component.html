@@ -1,45 +1,46 @@
-<div class="container mt-5">
-  <div class="card shadow-lg border-0 rounded-4">
-    <div
-      class="card-header text-white d-flex justify-content-between align-items-center rounded-top-4"
-      style="background: linear-gradient(90deg, #3cb6f9, #6fd3f5);"
-    >
-      <h4 class="mb-0">🩺 Médicos Registrados</h4>
-      <button class="btn btn-light text-primary fw-bold" (click)="crear()">
-        ➕ Nuevo Médico
-      </button>
-    </div>
-
-    <div class="card-body p-4 bg-light">
-      <table class="table table-hover table-striped align-middle shadow-sm rounded-3 overflow-hidden">
-        <thead style="background-color: #e3f6ff;" class="text-primary text-center">
+<div class="card">
+  <div class="card-header bg-info text-white">
+    <h5>👨‍⚕️ Médicos Registrados</h5>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead class="table-light">
           <tr>
             <th>ID</th>
-            <th>Nombre</th>
+            <th>Nombre Completo</th>
+            <th>Email</th>
             <th>Especialidad</th>
             <th>Número de Licencia</th>
             <th>Teléfono</th>
             <th>Acciones</th>
           </tr>
         </thead>
-        <tbody class="text-center">
+        <tbody>
           <tr *ngFor="let medico of medicos">
             <td>{{ medico.id }}</td>
-            <td>{{ medico.nombre }}</td>
+            <td>{{ medico.nombre }} {{ medico.apellido }}</td>
+            <td>{{ medico.email }}</td>
             <td>{{ medico.especialidad }}</td>
             <td>{{ medico.numeroLicencia }}</td>
             <td>{{ medico.telefono }}</td>
             <td>
-              <button class="btn btn-outline-primary btn-sm me-2" (click)="editar(medico.id)">
+              <button class="btn btn-sm btn-primary me-2" [routerLink]="['/admin/medicos/edit', medico.id]">
                 ✏️ Editar
               </button>
-              <button class="btn btn-outline-danger btn-sm" (click)="eliminar(medico.id)">
+              <button class="btn btn-sm btn-danger" (click)="eliminarMedico(medico.id)">
                 🗑️ Eliminar
               </button>
             </td>
           </tr>
+          <tr *ngIf="medicos.length === 0">
+            <td colspan="7" class="text-center">No hay médicos registrados</td>
+          </tr>
         </tbody>
       </table>
+    </div>
+    <div class="text-end mt-3">
+      <button class="btn btn-success" routerLink="/admin/medicos/create">➕ Nuevo Médico</button>
     </div>
   </div>
 </div>
