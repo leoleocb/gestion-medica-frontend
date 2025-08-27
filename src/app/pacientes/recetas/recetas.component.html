@@ -1,0 +1,9 @@
+<div class="container mt-4">
+  <h3>💊 Mis Recetas</h3>
+  <ul class="list-group mt-3">
+    <li class="list-group-item" *ngFor="let receta of recetas">
+      <strong>{{ receta.medicamento }}</strong> - {{ receta.dosis }}
+      <span class="text-muted">({{ receta.fecha }})</span>
+    </li>
+  </ul>
+</div>

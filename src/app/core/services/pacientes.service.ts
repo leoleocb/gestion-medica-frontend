@@ -18,6 +18,10 @@ export class PacientesService {
     return this.http.get(`${this.apiUrl}/${id}`);
   }
 
+  getPerfil(id: number): Observable<any> {   
+    return this.http.get(`${this.apiUrl}/${id}`);
+  }
+
   create(paciente: any): Observable<any> {
     return this.http.post(this.apiUrl, paciente);
   }

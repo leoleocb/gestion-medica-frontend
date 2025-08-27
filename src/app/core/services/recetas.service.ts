@@ -29,4 +29,9 @@ export class RecetasService {
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+
+  getByPaciente(idPaciente: number): Observable<any> {
+  return this.http.get(`${this.apiUrl}/paciente/${idPaciente}`);
+}
+
 }
