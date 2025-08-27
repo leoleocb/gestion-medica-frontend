@@ -1,0 +1,39 @@
+<div class="container mt-5">
+  <div class="card shadow-lg border-0 rounded-4">
+    <div
+      class="card-header text-white rounded-top-4"
+      style="background: linear-gradient(90deg, #3cb6f9, #6fd3f5);"
+    >
+      <h4 class="mb-0">✏️ Editar Médico</h4>
+    </div>
+
+    <div class="card-body p-4 bg-light">
+      <form (ngSubmit)="onSubmit()" class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Nombre</label>
+          <input type="text" [(ngModel)]="medico.nombre" name="nombre" class="form-control border-primary" required />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Especialidad</label>
+          <input type="text" [(ngModel)]="medico.especialidad" name="especialidad" class="form-control border-primary" required />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Número de Licencia</label>
+          <input type="text" [(ngModel)]="medico.numeroLicencia" name="numeroLicencia" class="form-control border-primary" required />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Teléfono</label>
+          <input type="text" [(ngModel)]="medico.telefono" name="telefono" class="form-control border-primary" />
+        </div>
+
+        <div class="col-12 d-flex justify-content-end">
+          <button type="button" class="btn btn-outline-secondary me-2" routerLink="/admin/medicos">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Actualizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

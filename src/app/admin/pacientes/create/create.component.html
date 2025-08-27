@@ -1,0 +1,34 @@
+<div class="container mt-5">
+  <div class="card shadow-lg border-0 rounded-4">
+    <div
+      class="card-header text-white rounded-top-4"
+      style="background: linear-gradient(90deg, #3cb6f9, #6fd3f5);"
+    >
+      <h4 class="mb-0">➕ Registrar Paciente</h4>
+    </div>
+
+    <div class="card-body p-4 bg-light">
+      <form (ngSubmit)="onSubmit()" class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Nombre completo</label>
+          <input type="text" [(ngModel)]="paciente.nombre" name="nombre" class="form-control border-primary" required />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Número de Identificación</label>
+          <input type="text" [(ngModel)]="paciente.numeroIdentificacion" name="numeroIdentificacion" class="form-control border-primary" required />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Fecha de Nacimiento</label>
+          <input type="date" [(ngModel)]="paciente.fechaNacimiento" name="fechaNacimiento" class="form-control border-primary" required />
+        </div>
+
+        <div class="col-12 d-flex justify-content-end">
+          <button type="button" class="btn btn-outline-secondary me-2" routerLink="/admin/pacientes">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

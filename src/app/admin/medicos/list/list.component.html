@@ -1,0 +1,45 @@
+<div class="container mt-5">
+  <div class="card shadow-lg border-0 rounded-4">
+    <div
+      class="card-header text-white d-flex justify-content-between align-items-center rounded-top-4"
+      style="background: linear-gradient(90deg, #3cb6f9, #6fd3f5);"
+    >
+      <h4 class="mb-0">🩺 Médicos Registrados</h4>
+      <button class="btn btn-light text-primary fw-bold" (click)="crear()">
+        ➕ Nuevo Médico
+      </button>
+    </div>
+
+    <div class="card-body p-4 bg-light">
+      <table class="table table-hover table-striped align-middle shadow-sm rounded-3 overflow-hidden">
+        <thead style="background-color: #e3f6ff;" class="text-primary text-center">
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Especialidad</th>
+            <th>Número de Licencia</th>
+            <th>Teléfono</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          <tr *ngFor="let medico of medicos">
+            <td>{{ medico.id }}</td>
+            <td>{{ medico.nombre }}</td>
+            <td>{{ medico.especialidad }}</td>
+            <td>{{ medico.numeroLicencia }}</td>
+            <td>{{ medico.telefono }}</td>
+            <td>
+              <button class="btn btn-outline-primary btn-sm me-2" (click)="editar(medico.id)">
+                ✏️ Editar
+              </button>
+              <button class="btn btn-outline-danger btn-sm" (click)="eliminar(medico.id)">
+                🗑️ Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

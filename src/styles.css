@@ -1,1 +1,127 @@
-/* You can add global styles to this file, and also import other style files */
+/* ======== PALETA CLÍNICA ======== */
+:root {
+  --color-primary: #3cb6f9;   /* Azul celeste */
+  --color-primary-dark: #239ad9;
+  --color-secondary: #6fd3f5; /* Celeste claro */
+  --color-bg: #f4f8fb;        /* Gris muy suave */
+  --color-text: #333333;      /* Gris oscuro para texto */
+  --border-radius: 12px;
+}
+
+/* ======== BODY ======== */
+body {
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* ======== TARJETAS ======== */
+.card {
+  border-radius: var(--border-radius) !important;
+  border: none !important;
+}
+
+.card-header {
+  border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary)) !important;
+  font-weight: 600;
+}
+
+/* ======== BOTONES ======== */
+.btn {
+  border-radius: var(--border-radius) !important;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+.btn-outline-primary {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+/* ======== TABLAS ======== */
+.table {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.table thead {
+  background-color: #e3f6ff;
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f1faff;
+}
+
+/* ======== FORMULARIOS ======== */
+.form-control {
+  border-radius: var(--border-radius) !important;
+  border: 1px solid #d1e7f5;
+}
+
+.form-control:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.2rem rgba(60, 182, 249, 0.25);
+}
+
+/* ======== ENCABEZADOS ======== */
+h2, h4 {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+.navbar {
+  background: linear-gradient(90deg, #3baedb, #1c8ecf);
+}
+.navbar-brand {
+  font-size: 1.3rem;
+}
+.nav-link {
+  font-weight: 500;
+}
+.nav-link:hover {
+  text-decoration: underline;
+}
+/* ======== NAVBAR ======== */
+.navbar {
+  position: sticky; /* 🔥 Hace que siempre quede arriba */
+  top: 0;
+  z-index: 1000; /* Para que quede por encima de todo */
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-dark)) !important;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white !important;
+}
+
+.nav-link {
+  font-weight: 500;
+  color: white !important;
+  margin-left: 0.8rem;
+  transition: color 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+  color: var(--color-secondary) !important;
+}

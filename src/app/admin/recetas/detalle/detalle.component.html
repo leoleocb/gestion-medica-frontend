@@ -1,0 +1,25 @@
+<div class="container mt-5" *ngIf="receta">
+  <div class="card shadow-lg border-0 rounded-4">
+    <div
+      class="card-header text-white rounded-top-4"
+      style="background: linear-gradient(90deg, #3cb6f9, #6fd3f5);"
+    >
+      <h4 class="mb-0">📑 Detalle de Receta</h4>
+    </div>
+
+    <div class="card-body p-4 bg-light">
+      <h5>Paciente: {{ receta.paciente?.nombre }}</h5>
+      <p><strong>Médico:</strong> {{ receta.medico?.nombre }}</p>
+      <p><strong>Fecha de Emisión:</strong> {{ receta.fechaEmision | date:'dd/MM/yyyy' }}</p>
+      <p><strong>Fecha de Caducidad:</strong> {{ receta.fechaCaducidad | date:'dd/MM/yyyy' }}</p>
+
+      <hr />
+      <h5>Medicamentos Recetados</h5>
+      <ul>
+        <li *ngFor="let item of receta.items">
+          💊 {{ item.medicamento?.nombre }} - {{ item.dosis }} ({{ item.frecuencia }})
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
