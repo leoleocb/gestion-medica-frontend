@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <h3 class="mb-3 text-primary">👥 Mis Pacientes</h3>
+
+  <table class="table table-striped table-hover" *ngIf="pacientes.length > 0; else noPacientes">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Identificación</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of pacientes">
+        <td>{{ p.id }}</td>
+        <td>{{ p.nombre }}</td>
+        <td>{{ p.numeroIdentificacion }}</td>
+        <td>
+          <a [routerLink]="['/medicos/expediente', p.id]" class="btn btn-sm btn-info">Ver Expediente</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noPacientes>
+    <div class="alert alert-info">No tienes pacientes asignados.</div>
+  </ng-template>
+</div>

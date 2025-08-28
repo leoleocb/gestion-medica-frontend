@@ -1,0 +1,25 @@
+<div class="container mt-4">
+  <h3 class="mb-3 text-primary">💊 Mis Recetas</h3>
+
+  <div *ngIf="recetas.length > 0; else noRecetas">
+    <div *ngFor="let r of recetas" class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Receta #{{ r.id }}</h5>
+        <p><strong>Fecha Emisión:</strong> {{ r.fechaEmision }}</p>
+        <p><strong>Fecha Caducidad:</strong> {{ r.fechaCaducidad }}</p>
+        <p><strong>Médico:</strong> {{ r.medicoNombre }}</p>
+
+        <h6>Medicamentos</h6>
+        <ul class="list-group">
+          <li *ngFor="let i of r.items" class="list-group-item">
+            {{ i.medicamento }} - {{ i.dosis }} ({{ i.frecuencia }})
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noRecetas>
+    <div class="alert alert-info">No tienes recetas registradas.</div>
+  </ng-template>
+</div>

@@ -1,0 +1,45 @@
+<div class="container mt-4">
+  <h3 class="mb-3 text-primary">📋 Mi Expediente Médico</h3>
+
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ expediente.nombrePaciente }}</h5>
+      <p><strong>ID:</strong> {{ expediente.numeroIdentificacion }}</p>
+      <p><strong>Fecha Nacimiento:</strong> {{ expediente.fechaNacimiento }}</p>
+    </div>
+  </div>
+
+  <h5>Alergias</h5>
+  <ul class="list-group mb-3">
+    <li *ngFor="let a of expediente.alergias" class="list-group-item">
+      {{ a.nombre }} - {{ a.descripcion }}
+    </li>
+  </ul>
+
+  <h5>Enfermedades</h5>
+  <ul class="list-group mb-3">
+    <li *ngFor="let e of expediente.enfermedades" class="list-group-item">
+      {{ e.nombre }} - {{ e.descripcion }}
+    </li>
+  </ul>
+
+  <h5>Citas</h5>
+  <table class="table table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Motivo</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of expediente.citas">
+        <td>{{ c.fecha }}</td>
+        <td>{{ c.hora }}</td>
+        <td>{{ c.motivo }}</td>
+        <td>{{ c.estado }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

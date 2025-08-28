@@ -1,0 +1,27 @@
+<div class="container mt-4 col-md-6">
+  <h3 class="mb-3 text-primary">➕ Nueva Cita</h3>
+
+  <form (ngSubmit)="crearCita()">
+    <div class="mb-3">
+      <label class="form-label">Fecha</label>
+      <input type="date" [(ngModel)]="fecha" name="fecha" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Hora</label>
+      <input type="time" [(ngModel)]="hora" name="hora" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Motivo</label>
+      <input type="text" [(ngModel)]="motivo" name="motivo" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Médico ID</label>
+      <input type="number" [(ngModel)]="medicoId" name="medicoId" class="form-control" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Guardar Cita</button>
+  </form>
+</div>

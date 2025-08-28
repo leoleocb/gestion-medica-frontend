@@ -1,0 +1,29 @@
+<div class="container mt-4">
+  <h3 class="text-danger">Todas las Citas</h3>
+
+  <div *ngIf="loading" class="alert alert-info">Cargando citas...</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <table class="table table-striped" *ngIf="!loading && citas.length > 0">
+    <thead class="table-dark">
+      <tr>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Paciente</th>
+        <th>Médico</th>
+        <th>Motivo</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of citas">
+        <td>{{ c.fecha }}</td>
+        <td>{{ c.hora }}</td>
+        <td>{{ c.paciente?.nombre }}</td>
+        <td>{{ c.medico?.nombre }}</td>
+        <td>{{ c.motivo }}</td>
+        <td>{{ c.estado }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,43 @@
+<div class="container mt-4">
+  <h2 class="mb-4 text-primary">📊 Panel de Control - Administrador</h2>
+
+  <div *ngIf="loading" class="alert alert-info">Cargando métricas...</div>
+
+  <div class="row" *ngIf="!loading">
+    <div class="col-md-3">
+      <div class="card text-white bg-success mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Pacientes</h5>
+          <p class="card-text display-6">{{ totalPacientes }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-white bg-primary mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Médicos</h5>
+          <p class="card-text display-6">{{ totalMedicos }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-white bg-warning mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Citas</h5>
+          <p class="card-text display-6">{{ totalCitas }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-white bg-danger mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Recetas</h5>
+          <p class="card-text display-6">{{ totalRecetas }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

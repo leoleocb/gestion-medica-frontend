@@ -1,0 +1,23 @@
+<div class="container mt-5">
+  <h2 class="text-secondary">⚙️ Configuración del Sistema</h2>
+  <p class="text-muted">Opciones generales de la aplicación.</p>
+
+  <form class="mt-4" (ngSubmit)="guardar()">
+    <div class="mb-3">
+      <label for="nombreSistema" class="form-label">Nombre del sistema</label>
+      <input type="text" id="nombreSistema" class="form-control" [(ngModel)]="nombreSistema" name="nombreSistema" />
+    </div>
+
+    <div class="mb-3">
+      <label for="correoSoporte" class="form-label">Correo de soporte</label>
+      <input type="email" id="correoSoporte" class="form-control" [(ngModel)]="correoSoporte" name="correoSoporte" />
+    </div>
+
+    <div class="mb-3">
+      <label for="telefonoSoporte" class="form-label">Teléfono de soporte</label>
+      <input type="text" id="telefonoSoporte" class="form-control" [(ngModel)]="telefonoSoporte" name="telefonoSoporte" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+  </form>
+</div>

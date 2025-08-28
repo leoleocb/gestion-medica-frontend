@@ -1,41 +1,37 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PacientesService {
-  private apiUrl = 'http://localhost:8080/api/pacientes';
+  private apiUrl = `${environment.apiUrl}/pacientes`;
 
   constructor(private http: HttpClient) {}
 
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    return new HttpHeaders({ Authorization: `Bearer ${token}` });
-  }
-
-  getAll(): Observable<any> {
-    return this.http.get(this.apiUrl, { headers: this.getAuthHeaders() });
+  getAll(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
   }
 
   getById(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
-  getPerfil(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
+  getPerfil(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/perfil`);
   }
 
-  create(paciente: any): Observable<any> {
-    return this.http.post(this.apiUrl, paciente, { headers: this.getAuthHeaders() });
+  create(data: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, data);
   }
 
-  update(id: number, paciente: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, paciente, { headers: this.getAuthHeaders() });
+  update(id: number, data: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, data);
   }
 
-  delete(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

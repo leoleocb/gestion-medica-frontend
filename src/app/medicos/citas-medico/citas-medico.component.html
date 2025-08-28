@@ -1,0 +1,33 @@
+<div class="container mt-4">
+  <h3 class="mb-3 text-primary">📅 Mis Citas (Médico)</h3>
+
+  <table class="table table-striped table-hover" *ngIf="citas.length > 0; else noCitas">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Paciente</th>
+        <th>Motivo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of citas">
+        <td>{{ c.id }}</td>
+        <td>{{ c.fecha }}</td>
+        <td>{{ c.hora }}</td>
+        <td>{{ c.paciente?.nombre }}</td>
+        <td>{{ c.motivo }}</td>
+        <td>
+          <a [routerLink]="['/medicos/atender', c.paciente?.id]" class="btn btn-sm btn-success me-2">Atender</a>
+          <a [routerLink]="['/medicos/recetas', c.paciente?.id]" class="btn btn-sm btn-primary">Recetar</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noCitas>
+    <div class="alert alert-info">No tienes citas asignadas.</div>
+  </ng-template>
+</div>

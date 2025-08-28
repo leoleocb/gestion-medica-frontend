@@ -1,67 +1,51 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule,RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-  email: string = '';
-  password: string = '';
-  errorMessage: string = '';
+export class LoginComponent implements OnInit {
+  form!: FormGroup; // inicializado después
 
   constructor(
+    private fb: FormBuilder,
     private authService: AuthService,
-    private http: HttpClient,
+    private notification: NotificationService,
     private router: Router
   ) {}
 
-  onLogin() {
-    console.log("🔑 Iniciando login con:", this.email, this.password);
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+  }
 
-    this.authService.login(this.email, this.password).subscribe({
-      next: (response: any) => {
-        console.log("✅ Login OK, backend respondió:", response);
+  login() {
+    if (this.form.invalid) {
+      this.notification.show('❌ Completa todos los campos', 'danger');
+      return;
+    }
 
-        const token = response.token;
-        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    const { email, password } = this.form.value;
+    this.authService.login(email!, password!).subscribe({
+      next: (res) => {
+        this.authService.saveSession(res.token, res.roles);
+        this.notification.show('✅ Bienvenido', 'success');
 
-        // Obtener info de usuario y roles
-        this.http.get('http://localhost:8080/api/user/me', { headers }).subscribe({
-          next: (user: any) => {
-            console.log("👤 Datos de usuario:", user);
-
-            const roles = Array.isArray(user.roles) ? user.roles : [user.roles];
-            this.authService.saveSession(token, roles);
-
-            // Redirigir según rol
-            if (roles.includes('ROLE_ADMIN')) {
-              this.router.navigate(['/admin']);
-            } else if (roles.includes('ROLE_MEDICO')) {
-              this.router.navigate(['/medicos']);
-            } else if (roles.includes('ROLE_PACIENTE')) {
-              this.router.navigate(['/pacientes']);
-            } else {
-              this.router.navigate(['/auth/login']);
-            }
-          },
-          error: (err) => {
-            console.error("❌ Error obteniendo datos del usuario:", err);
-            this.errorMessage = 'No se pudo obtener información del usuario';
-          }
-        });
+        if (res.roles.includes('ROLE_ADMIN')) this.router.navigate(['/admin/dashboard']);
+        else if (res.roles.includes('ROLE_MEDICO')) this.router.navigate(['/medicos/citas']);
+        else this.router.navigate(['/pacientes/citas']);
       },
-      error: (err) => {
-        console.error('❌ Error en login', err);
-        this.errorMessage = 'Credenciales inválidas';
-      }
+      error: () => this.notification.show('❌ Credenciales incorrectas', 'danger')
     });
   }
 }

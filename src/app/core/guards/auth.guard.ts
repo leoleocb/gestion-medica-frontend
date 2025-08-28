@@ -1,31 +1,28 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { CanActivateFn, Router } from '@angular/router';
+import { inject } from '@angular/core';
+import { SessionService } from '../services/session.service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard implements CanActivate {
+export const authGuard: CanActivateFn = (route, state) => {
+  const session = inject(SessionService);
+  const router = inject(Router);
 
-  constructor(private authService: AuthService, private router: Router) {}
-
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const token = this.authService.getToken();
-    const roles = this.authService.getUserRoles();
-
-    if (!token) {
-      this.router.navigate(['/auth/login']);
-      return false;
-    }
-
-    const requiredRoles: string[] = route.data['roles'] || [];
-
-    if (requiredRoles.length > 0 && !roles.some((r: string) => requiredRoles.includes(r))) {
-      console.warn("⚠️ Rol no autorizado");
-      this.router.navigate(['/auth/login']);
-      return false;
-    }
-
-    return true;
+  // 1. Verificar si hay sesión
+  if (!session.getToken()) {
+    router.navigate(['/auth/login']);
+    return false;
   }
-}
+
+  const requiredRoles = route.data?.['roles'] as string[];
+  if (requiredRoles && requiredRoles.length > 0) {
+    const userRoles = session.getRoles();
+    const autorizado = requiredRoles.some(r => userRoles.includes(r));
+
+    if (!autorizado) {
+      router.navigate(['/forbidden']); 
+      return false;
+    }
+  }
+
+  return true;
+};
