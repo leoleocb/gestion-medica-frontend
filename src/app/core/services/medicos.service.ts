@@ -23,6 +23,9 @@ export class MedicosService {
     return this.http.get<any[]>(`${this.apiUrl}/especialidad?nombre=${nombre}`);
   }
 
+  getEspecialidades(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/especialidades`);
+  }
 
   create(data: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, data);

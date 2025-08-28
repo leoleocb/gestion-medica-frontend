@@ -1,47 +1,42 @@
 <div class="container mt-4 col-md-6">
   <h3 class="mb-3 text-primary">➕ Nueva Cita</h3>
 
-  <form (ngSubmit)="crearCita()">
-    <!-- Especialidad -->
-    <div class="mb-3">
-      <label class="form-label">Especialidad</label>
-      <select class="form-select" [(ngModel)]="especialidad" name="especialidad" (change)="cargarMedicos()">
-        <option value="">Seleccione una especialidad</option>
-        <option *ngFor="let e of especialidades" [value]="e">{{ e }}</option>
-      </select>
-    </div>
+  <div class="mb-3">
+    <label class="form-label">Especialidad</label>
+    <select class="form-select" [(ngModel)]="especialidadSeleccionada" name="especialidad"
+            (change)="onEspecialidadChange()">
+      <option [ngValue]="''">Seleccione una especialidad</option>
+      <option *ngFor="let esp of especialidades" [ngValue]="esp">{{ esp }}</option>
+    </select>
+  </div>
 
-    <!-- Médico -->
-    <div class="mb-3" *ngIf="medicos.length > 0">
-      <label class="form-label">Médico</label>
-      <select class="form-select" [(ngModel)]="medicoId" name="medicoId" (change)="cargarHorarios()">
-        <option value="">Seleccione un médico</option>
-        <option *ngFor="let m of medicos" [value]="m.id">{{ m.nombre }} {{ m.apellido }}</option>
-      </select>
-      <div class="mt-2 text-muted" *ngIf="tarifa">Tarifa: S/ {{ tarifa }}</div>
-    </div>
+  <div class="mb-3" *ngIf="medicos.length > 0">
+    <label class="form-label">Médico</label>
+    <select class="form-select" [(ngModel)]="cita.medicoId" name="medicoId" (change)="onFechaChange()">
+      <option [ngValue]="null">Seleccione un médico</option>
+      <option *ngFor="let m of medicos" [ngValue]="m.id">
+        {{ m.nombre }} {{ m.apellido }} - Tarifa: S/. {{ m.tarifaConsulta }}
+      </option>
+    </select>
+  </div>
 
-    <!-- Fecha -->
-    <div class="mb-3">
-      <label class="form-label">Fecha</label>
-      <input type="date" [(ngModel)]="fecha" name="fecha" class="form-control" (change)="cargarHorarios()">
-    </div>
+  <div class="mb-3">
+    <label class="form-label">Fecha</label>
+    <input type="date" class="form-control" [(ngModel)]="cita.fecha" name="fecha" (change)="onFechaChange()">
+  </div>
 
-    <!-- Horarios disponibles -->
-    <div class="mb-3" *ngIf="horarios.length > 0">
-      <label class="form-label">Horario</label>
-      <select class="form-select" [(ngModel)]="hora" name="hora">
-        <option value="">Seleccione un horario</option>
-        <option *ngFor="let h of horarios" [value]="h">{{ h }}</option>
-      </select>
-    </div>
+  <div class="mb-3" *ngIf="horarios.length > 0">
+    <label class="form-label">Horario</label>
+    <select class="form-select" [(ngModel)]="cita.hora" name="hora">
+      <option [ngValue]="''">Seleccione un horario</option>
+      <option *ngFor="let h of horarios" [ngValue]="h">{{ h }}</option>
+    </select>
+  </div>
 
-    <!-- Motivo -->
-    <div class="mb-3">
-      <label class="form-label">Motivo</label>
-      <input type="text" [(ngModel)]="motivo" name="motivo" class="form-control" required>
-    </div>
+  <div class="mb-3">
+    <label class="form-label">Motivo</label>
+    <input type="text" class="form-control" [(ngModel)]="cita.motivo" name="motivo">
+  </div>
 
-    <button type="submit" class="btn btn-primary w-100">Guardar Cita</button>
-  </form>
+  <button class="btn btn-primary w-100" (click)="guardarCita()">Guardar Cita</button>
 </div>

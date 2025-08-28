@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CitasService } from '../../core/services/citas.service';
-import { MedicosService } from '../../core/services/medicos.service';
 import { NotificationService } from '../../core/services/notification.service';
+import { MedicosService } from '../../core/services/medicos.service';
+import { CitasService } from '../../core/services/citas.service';
 
 @Component({
   selector: 'app-nueva-cita',
@@ -13,86 +13,66 @@ import { NotificationService } from '../../core/services/notification.service';
   templateUrl: './nueva-cita.component.html',
   styleUrls: ['./nueva-cita.component.css']
 })
-export class NuevaCitaComponent {
-  especialidades: string[] = ['Cardiología'];
-  especialidad: string = '';
+export class NuevaCitaComponent implements OnInit {
+  especialidades: string[] = [];
   medicos: any[] = [];
-  medicoId: number | null = null;
-  tarifa: number | null = null;
-
-  fecha: string = '';
   horarios: string[] = [];
-  hora: string = '';
-  motivo: string = '';
+  especialidadSeleccionada = '';
+  cita: any = { medicoId: null, fecha: '', hora: '', motivo: '' };
 
   constructor(
-    private citasService: CitasService,
     private medicosService: MedicosService,
-    private router: Router,
-    private notification: NotificationService
+    private citasService: CitasService,
+    private notification: NotificationService,
+    private router: Router
   ) {}
 
-  cargarMedicos() {
-    if (this.especialidad) {
-      this.medicosService.getByEspecialidad(this.especialidad).subscribe({
-        next: (res: any[]) => this.medicos = res,
-        error: () => this.notification.show('❌ No se pudieron cargar los médicos', 'danger')
-      });
-    }
+  ngOnInit(): void {
+    this.cargarEspecialidades();
   }
 
-
-  esFechaValida(fechaStr: string): boolean {
-    const fecha = new Date(fechaStr);
-    const dia = fecha.getUTCDay(); 
-    return dia >= 1 && dia <= 5;
+  cargarEspecialidades() {
+    this.medicosService.getEspecialidades().subscribe({
+      next: (res) => (this.especialidades = res),
+      error: () => this.notification.show('❌ No se pudieron cargar las especialidades', 'danger')
+    });
   }
 
-  cargarHorarios() {
-    if (this.medicoId && this.fecha) {
-      if (!this.esFechaValida(this.fecha)) {
-        this.notification.show('❌ Solo puedes seleccionar días de lunes a viernes', 'danger');
-        this.horarios = [];
-        return;
-      }
-
-      const medico = this.medicos.find(m => m.id == this.medicoId);
-      this.tarifa = medico?.tarifaConsulta;
-
-      this.citasService.getDisponibilidad(this.medicoId, this.fecha).subscribe({
-        next: (res: any[]) => {
-          // ✅ Filtrar horarios solo entre 08:00 y 16:00
-          this.horarios = res.filter(h => {
-            const hora = parseInt(h.split(':')[0], 10);
-            return hora >= 8 && hora <= 16;
-          });
-        },
-        error: () => this.notification.show('❌ No se pudieron cargar los horarios', 'danger')
-      });
-    }
+  onEspecialidadChange() {
+    if (!this.especialidadSeleccionada) return;
+    this.medicosService.getByEspecialidad(this.especialidadSeleccionada).subscribe({
+      next: (res) => (this.medicos = res),
+      error: () => this.notification.show('❌ No se pudieron cargar los médicos', 'danger')
+    });
   }
 
-  crearCita() {
-    if (!this.fecha || !this.hora || !this.motivo || !this.medicoId) {
-      this.notification.show('❌ Todos los campos son obligatorios', 'danger');
+  onFechaChange() {
+    if (!this.cita.medicoId || !this.cita.fecha) return;
+    this.citasService.getDisponibilidad(this.cita.medicoId, this.cita.fecha).subscribe({
+      next: (res) => (this.horarios = res),
+      error: () => this.notification.show('❌ No se pudieron cargar los horarios', 'danger')
+    });
+  }
+
+  guardarCita() {
+    if (!this.cita.medicoId || !this.cita.fecha || !this.cita.hora || !this.cita.motivo) {
+      this.notification.show('❌ Complete todos los campos', 'danger');
       return;
     }
 
-    const cita = {
-      fecha: this.fecha,
-      hora: this.hora,
-      motivo: this.motivo,
-      medico: { id: this.medicoId }
+    const payload = {
+      medico: { id: this.cita.medicoId },
+      fecha: this.cita.fecha,  // YYYY-MM-DD
+      hora: this.cita.hora,    // HH:mm
+      motivo: this.cita.motivo
     };
 
-    this.citasService.create(cita).subscribe({
+    this.citasService.create(payload).subscribe({
       next: () => {
-        this.notification.show('✅ Cita creada correctamente', 'success');
-        setTimeout(() => this.router.navigate(['/pacientes/citas']), 1500);
+        this.notification.show('✅ Cita registrada correctamente', 'success');
+        setTimeout(() => this.router.navigate(['/pacientes/citas']), 1200);
       },
-      error: (err) => {
-        this.notification.show(err.error?.error || '❌ Error al crear la cita', 'danger');
-      }
+      error: () => this.notification.show('❌ No se pudo registrar la cita', 'danger')
     });
   }
 }

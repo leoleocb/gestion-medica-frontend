@@ -27,11 +27,6 @@ export class CitasService {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
-  getDisponibilidad(medicoId: number, fecha: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/disponibilidad/${medicoId}/${fecha}`);
-  }
-
-
   create(data: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, data);
   }
@@ -40,11 +35,15 @@ export class CitasService {
     return this.http.put<any>(`${this.apiUrl}/${id}`, data);
   }
 
-  updateEstado(id: number, estado: string): Observable<any> {
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  actualizarEstado(id: number, estado: string): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${id}/estado?estado=${estado}`, {});
   }
 
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  getDisponibilidad(medicoId: number, fecha: string): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/disponibilidad/${medicoId}/${fecha}`);
   }
 }
