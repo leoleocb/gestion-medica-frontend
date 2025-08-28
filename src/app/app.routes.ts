@@ -7,6 +7,14 @@ export const routes: Routes = [
   { path: 'home', loadComponent: () => import('./shared/home/home.component').then(m => m.HomeComponent) },
   { path: 'ayuda', loadComponent: () => import('./shared/ayuda/ayuda.component').then(m => m.AyudaComponent) },
 
+  // PERFIL (para cualquier rol logueado)
+  {
+    path: 'perfil',
+    loadComponent: () => import('./perfil/perfil.component').then(m => m.PerfilComponent),
+    canActivate: [authGuard],
+    data: { roles: ['ROLE_ADMIN', 'ROLE_MEDICO', 'ROLE_PACIENTE'] }
+  },
+
   // PACIENTE
   {
     path: 'pacientes',
@@ -22,21 +30,21 @@ export const routes: Routes = [
   },
 
   // MÉDICO
-{
-  path: 'medicos',
-  loadComponent: () => import('./medicos/medicos.component').then(m => m.MedicosComponent),
-  canActivate: [authGuard],
-  data: { roles: ['ROLE_MEDICO'] },
-  children: [
-    { path: 'citas', loadComponent: () => import('./medicos/citas-medico/citas-medico.component').then(m => m.CitasMedicoComponent) },
-    { path: 'pacientes', loadComponent: () => import('./medicos/pacientes-medico/pacientes-medico.component').then(m => m.PacientesMedicoComponent) },
-    { path: 'expediente/:id', loadComponent: () => import('./medicos/expediente-paciente-medico/expediente-paciente-medico.component').then(m => m.ExpedientePacienteMedicoComponent) },
-    { path: 'atender/:id', loadComponent: () => import('./medicos/atender-paciente/atender-paciente.component').then(m => m.AtenderPacienteComponent) },
-    { path: 'recetas/:id', loadComponent: () => import('./medicos/emitir-receta/emitir-receta.component').then(m => m.EmitirRecetaComponent) },
-    { path: 'mis-recetas', loadComponent: () => import('./medicos/mis-recetas-medico/mis-recetas-medico.component').then(m => m.MisRecetasMedicoComponent) },
-    { path: 'condiciones/:id', loadComponent: () => import('./medicos/asignar-condiciones/asignar-condiciones.component').then(m => m.AsignarCondicionesComponent) }
-  ]
-},
+  {
+    path: 'medicos',
+    loadComponent: () => import('./medicos/medicos.component').then(m => m.MedicosComponent),
+    canActivate: [authGuard],
+    data: { roles: ['ROLE_MEDICO'] },
+    children: [
+      { path: 'citas', loadComponent: () => import('./medicos/citas-medico/citas-medico.component').then(m => m.CitasMedicoComponent) },
+      { path: 'pacientes', loadComponent: () => import('./medicos/pacientes-medico/pacientes-medico.component').then(m => m.PacientesMedicoComponent) },
+      { path: 'expediente/:id', loadComponent: () => import('./medicos/expediente-paciente-medico/expediente-paciente-medico.component').then(m => m.ExpedientePacienteMedicoComponent) },
+      { path: 'atender/:id', loadComponent: () => import('./medicos/atender-paciente/atender-paciente.component').then(m => m.AtenderPacienteComponent) },
+      { path: 'recetas/:id', loadComponent: () => import('./medicos/emitir-receta/emitir-receta.component').then(m => m.EmitirRecetaComponent) },
+      { path: 'mis-recetas', loadComponent: () => import('./medicos/mis-recetas-medico/mis-recetas-medico.component').then(m => m.MisRecetasMedicoComponent) },
+      { path: 'condiciones/:id', loadComponent: () => import('./medicos/asignar-condiciones/asignar-condiciones.component').then(m => m.AsignarCondicionesComponent) }
+    ]
+  },
 
   // ADMIN
   {

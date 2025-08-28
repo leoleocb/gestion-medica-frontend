@@ -1,0 +1,67 @@
+<div class="container mt-4 col-md-6">
+  <h3 class="mb-3 text-primary">
+    <i class="bi bi-person-circle"></i> Mi Perfil
+  </h3>
+
+  <!-- Datos básicos -->
+  <div class="card mb-3 shadow-sm">
+    <div class="card-body">
+      <p><strong>Nombre:</strong> {{ perfil.name }}</p>
+      <p><strong>Email:</strong> {{ perfil.email }}</p>
+      <p>
+        <strong>Roles:</strong>
+        <span *ngFor="let r of perfil.roles" class="badge bg-info me-1">
+          {{ r.name }}
+        </span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Formulario cambio de contraseña -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-secondary text-white">
+      🔒 Cambiar Contraseña
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="cambiarPassword()" #formPassword="ngForm">
+        <div class="mb-3">
+          <label class="form-label">Contraseña actual</label>
+          <input 
+            type="password" 
+            [(ngModel)]="actual" 
+            name="actual" 
+            class="form-control" 
+            required
+            placeholder="Ingrese su contraseña actual"
+          >
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Nueva contraseña</label>
+          <input 
+            type="password" 
+            [(ngModel)]="nueva" 
+            name="nueva" 
+            class="form-control" 
+            required 
+            minlength="6"
+            placeholder="Mínimo 6 caracteres"
+          >
+        </div>
+
+        <button 
+          type="submit" 
+          class="btn btn-primary w-100"
+          [disabled]="!formPassword.valid">
+          Actualizar Contraseña
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Mensaje opcional (además del toast) -->
+  <div *ngIf="perfilMessage" class="alert mt-3" 
+       [ngClass]="{'alert-success': perfilMessageType === 'success', 'alert-danger': perfilMessageType === 'danger'}">
+    {{ perfilMessage }}
+  </div>
+</div>

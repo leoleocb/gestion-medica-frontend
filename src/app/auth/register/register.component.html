@@ -8,10 +8,16 @@
           <div class="col-md-6 mb-3">
             <label class="form-label">Nombre</label>
             <input type="text" class="form-control" formControlName="name">
+            <div *ngIf="form.get('name')?.touched && form.get('name')?.invalid" class="text-danger small">
+              ❌ El nombre es obligatorio
+            </div>
           </div>
           <div class="col-md-6 mb-3">
             <label class="form-label">Email</label>
             <input type="email" class="form-control" formControlName="email">
+            <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="text-danger small">
+              ❌ Ingresa un email válido
+            </div>
           </div>
         </div>
 
@@ -25,7 +31,7 @@
               maxlength="8"
               (keypress)="onlyNumbers($event)">
             
-            <!-- Errores -->
+            <!-- Errores DNI -->
             <div *ngIf="form.get('numeroIdentificacion')?.touched && form.get('numeroIdentificacion')?.invalid" class="text-danger small">
               <div *ngIf="form.get('numeroIdentificacion')?.errors?.['required']">❌ El DNI es obligatorio</div>
               <div *ngIf="form.get('numeroIdentificacion')?.errors?.['minlength']">❌ El DNI debe tener 8 dígitos</div>
@@ -36,6 +42,9 @@
           <div class="col-md-6 mb-3">
             <label class="form-label">Fecha de Nacimiento</label>
             <input type="date" class="form-control" formControlName="fechaNacimiento">
+            <div *ngIf="form.get('fechaNacimiento')?.touched && form.get('fechaNacimiento')?.invalid" class="text-danger small">
+              ❌ La fecha de nacimiento es obligatoria
+            </div>
           </div>
         </div>
 
@@ -43,6 +52,10 @@
           <div class="col-md-6 mb-3">
             <label class="form-label">Contraseña</label>
             <input type="password" class="form-control" formControlName="password">
+            <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid" class="text-danger small">
+              <div *ngIf="form.get('password')?.errors?.['required']">❌ La contraseña es obligatoria</div>
+              <div *ngIf="form.get('password')?.errors?.['minlength']">❌ La contraseña debe tener al menos 6 caracteres</div>
+            </div>
           </div>
           <div class="col-md-6 mb-3">
             <label class="form-label">Confirmar Contraseña</label>
@@ -53,7 +66,8 @@
           </div>
         </div>
 
-        <button class="btn btn-success w-100" [disabled]="form.invalid">Registrarse</button>
+        <!-- 🚀 Ahora el botón no se bloquea por validaciones raras -->
+        <button class="btn btn-success w-100" type="submit">Registrarse</button>
       </form>
 
       <div class="mt-3 text-center">

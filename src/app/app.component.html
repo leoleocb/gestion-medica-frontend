@@ -24,6 +24,12 @@
       </ul>
 
       <ul class="navbar-nav">
+        <!-- Perfil -->
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a class="nav-link" routerLink="/perfil">Perfil</a>
+        </li>
+
+        <!-- Login / Logout -->
         <li class="nav-item" *ngIf="!isLoggedIn">
           <a class="nav-link" routerLink="/auth/login">Login</a>
         </li>
@@ -34,8 +40,6 @@
     </div>
   </div>
 </nav>
-
-
 
 <div class="container mt-4">
   <router-outlet></router-outlet>

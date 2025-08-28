@@ -28,11 +28,7 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       numeroIdentificacion: [
         '',
-        [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(8)
-        ]
+        [Validators.required, Validators.minLength(8), Validators.maxLength(8)]
       ],
       fechaNacimiento: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -40,13 +36,16 @@ export class RegisterComponent implements OnInit {
     }, { validators: this.passwordMatchValidator });
   }
 
+  // ✅ Valida que las contraseñas coincidan pero no bloquea si están vacías
   passwordMatchValidator(control: AbstractControl) {
     const pass = control.get('password')?.value;
     const confirm = control.get('confirmPassword')?.value;
+
+    if (!pass || !confirm) return null; // si no completaron aún
     return pass === confirm ? null : { mismatch: true };
   }
 
- 
+  // ✅ Solo permite números en DNI
   onlyNumbers(event: KeyboardEvent) {
     const charCode = event.which ? event.which : event.keyCode;
     if (charCode < 48 || charCode > 57) {
