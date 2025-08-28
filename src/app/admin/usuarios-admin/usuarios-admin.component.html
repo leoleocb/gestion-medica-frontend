@@ -3,16 +3,13 @@
 
   <form (ngSubmit)="guardar()" class="mb-4">
     <div class="row g-2">
-      <div class="col-md-3">
+      <div class="col-md-4">
         <input type="text" [(ngModel)]="usuario.name" name="name" class="form-control" placeholder="Nombre" required>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <input type="email" [(ngModel)]="usuario.email" name="email" class="form-control" placeholder="Email" required>
       </div>
       <div class="col-md-3">
-        <input type="password" [(ngModel)]="usuario.password" name="password" class="form-control" placeholder="Contraseña" [required]="!editMode">
-      </div>
-      <div class="col-md-2">
         <select [(ngModel)]="usuario.roles" name="roles" class="form-select" multiple>
           <option value="ROLE_ADMIN">Admin</option>
           <option value="ROLE_MEDICO">Médico</option>

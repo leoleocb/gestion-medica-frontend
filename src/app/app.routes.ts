@@ -22,20 +22,21 @@ export const routes: Routes = [
   },
 
   // MÉDICO
-  {
-    path: 'medicos',
-    loadComponent: () => import('./medicos/medicos.component').then(m => m.MedicosComponent),
-    canActivate: [authGuard],
-    data: { roles: ['ROLE_MEDICO'] },
-    children: [
-      { path: 'citas', loadComponent: () => import('./medicos/citas-medico/citas-medico.component').then(m => m.CitasMedicoComponent) },
-      { path: 'pacientes', loadComponent: () => import('./medicos/pacientes-medico/pacientes-medico.component').then(m => m.PacientesMedicoComponent) },
-      { path: 'expediente/:id', loadComponent: () => import('./medicos/expediente-paciente-medico/expediente-paciente-medico.component').then(m => m.ExpedientePacienteMedicoComponent) },
-      { path: 'atender/:id', loadComponent: () => import('./medicos/atender-paciente/atender-paciente.component').then(m => m.AtenderPacienteComponent) },
-      { path: 'recetas/:id', loadComponent: () => import('./medicos/emitir-receta/emitir-receta.component').then(m => m.EmitirRecetaComponent) },
-      { path: 'mis-recetas', loadComponent: () => import('./medicos/mis-recetas-medico/mis-recetas-medico.component').then(m => m.MisRecetasMedicoComponent) }
-    ]
-  },
+{
+  path: 'medicos',
+  loadComponent: () => import('./medicos/medicos.component').then(m => m.MedicosComponent),
+  canActivate: [authGuard],
+  data: { roles: ['ROLE_MEDICO'] },
+  children: [
+    { path: 'citas', loadComponent: () => import('./medicos/citas-medico/citas-medico.component').then(m => m.CitasMedicoComponent) },
+    { path: 'pacientes', loadComponent: () => import('./medicos/pacientes-medico/pacientes-medico.component').then(m => m.PacientesMedicoComponent) },
+    { path: 'expediente/:id', loadComponent: () => import('./medicos/expediente-paciente-medico/expediente-paciente-medico.component').then(m => m.ExpedientePacienteMedicoComponent) },
+    { path: 'atender/:id', loadComponent: () => import('./medicos/atender-paciente/atender-paciente.component').then(m => m.AtenderPacienteComponent) },
+    { path: 'recetas/:id', loadComponent: () => import('./medicos/emitir-receta/emitir-receta.component').then(m => m.EmitirRecetaComponent) },
+    { path: 'mis-recetas', loadComponent: () => import('./medicos/mis-recetas-medico/mis-recetas-medico.component').then(m => m.MisRecetasMedicoComponent) },
+    { path: 'condiciones/:id', loadComponent: () => import('./medicos/asignar-condiciones/asignar-condiciones.component').then(m => m.AsignarCondicionesComponent) }
+  ]
+},
 
   // ADMIN
   {
@@ -52,7 +53,9 @@ export const routes: Routes = [
       { path: 'citas', loadComponent: () => import('./admin/citas-global-admin/citas-global-admin.component').then(m => m.CitasGlobalAdminComponent) },
       { path: 'expedientes', loadComponent: () => import('./admin/expedientes-global-admin/expedientes-global-admin.component').then(m => m.ExpedientesGlobalAdminComponent) },
       { path: 'recetas', loadComponent: () => import('./admin/recetas-global-admin/recetas-global-admin.component').then(m => m.RecetasGlobalAdminComponent) },
-      { path: 'configuracion', loadComponent: () => import('./admin/configuracion-admin/configuracion-admin.component').then(m => m.ConfiguracionAdminComponent) }
+      { path: 'configuracion', loadComponent: () => import('./admin/configuracion-admin/configuracion-admin.component').then(m => m.ConfiguracionAdminComponent) },
+      { path: 'alergias', loadComponent: () => import('./admin/alergias-admin/alergias-admin.component').then(m => m.AlergiasAdminComponent) },
+      { path: 'enfermedades', loadComponent: () => import('./admin/enfermedades-admin/enfermedades-admin.component').then(m => m.EnfermedadesAdminComponent) }
     ]
   },
 
@@ -63,6 +66,6 @@ export const routes: Routes = [
   // ERROR 403
   { path: 'forbidden', loadComponent: () => import('./shared/forbidden.component').then(m => m.ForbiddenComponent) },
 
-  // NOT FOUND (Catch-all)
+  // NOT FOUND
   { path: '**', loadComponent: () => import('./shared/not-found/not-found.component').then(m => m.NotFoundComponent) }
 ];

@@ -13,7 +13,7 @@ import { NotificationService } from '../../core/services/notification.service';
 })
 export class UsuariosAdminComponent implements OnInit {
   usuarios: any[] = [];
-  usuario: any = { name: '', email: '', password: '', roles: [] };
+  usuario: any = { name: '', email: '', roles: [] };
   editMode = false;
   selectedId: number | null = null;
 
@@ -61,7 +61,7 @@ export class UsuariosAdminComponent implements OnInit {
   }
 
   editar(u: any) {
-    this.usuario = { ...u };
+    this.usuario = { ...u, roles: u.roles.map((r: any) => r.name) };
     this.editMode = true;
     this.selectedId = u.id;
   }
@@ -79,7 +79,7 @@ export class UsuariosAdminComponent implements OnInit {
   }
 
   resetForm() {
-    this.usuario = { name: '', email: '', password: '', roles: [] };
+    this.usuario = { name: '', email: '', roles: [] };
     this.editMode = false;
     this.selectedId = null;
   }

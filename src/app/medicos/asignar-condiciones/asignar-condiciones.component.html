@@ -1,0 +1,43 @@
+<div class="container mt-4">
+  <h3 class="mb-3 text-primary">➕ Asignar Alergias y Enfermedades</h3>
+
+  <!-- 📌 Formulario para asignar alergia -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-danger text-white">
+      🦠 Asignar Alergia
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="asignarAlergia()">
+        <div class="mb-3">
+          <label class="form-label">Nombre de la Alergia</label>
+          <input type="text" [(ngModel)]="alergia.nombre" name="alergiaNombre" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Descripción</label>
+          <textarea [(ngModel)]="alergia.descripcion" name="alergiaDescripcion" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-danger">Asignar Alergia</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 📌 Formulario para asignar enfermedad -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-warning text-dark">
+      🏥 Asignar Enfermedad
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="asignarEnfermedad()">
+        <div class="mb-3">
+          <label class="form-label">Nombre de la Enfermedad</label>
+          <input type="text" [(ngModel)]="enfermedad.nombre" name="enfermedadNombre" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Descripción</label>
+          <textarea [(ngModel)]="enfermedad.descripcion" name="enfermedadDescripcion" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-warning">Asignar Enfermedad</button>
+      </form>
+    </div>
+  </div>
+</div>
