@@ -27,6 +27,11 @@ export class CitasService {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
+  getDisponibilidad(medicoId: number, fecha: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/disponibilidad/${medicoId}/${fecha}`);
+  }
+
+
   create(data: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, data);
   }

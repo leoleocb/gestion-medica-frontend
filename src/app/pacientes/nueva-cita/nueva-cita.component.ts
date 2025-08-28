@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CitasService } from '../../core/services/citas.service';
+import { MedicosService } from '../../core/services/medicos.service';
 import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
@@ -13,16 +14,63 @@ import { NotificationService } from '../../core/services/notification.service';
   styleUrls: ['./nueva-cita.component.css']
 })
 export class NuevaCitaComponent {
+  especialidades: string[] = ['Cardiología'];
+  especialidad: string = '';
+  medicos: any[] = [];
+  medicoId: number | null = null;
+  tarifa: number | null = null;
+
   fecha: string = '';
+  horarios: string[] = [];
   hora: string = '';
   motivo: string = '';
-  medicoId: number | null = null;
 
   constructor(
     private citasService: CitasService,
+    private medicosService: MedicosService,
     private router: Router,
     private notification: NotificationService
   ) {}
+
+  cargarMedicos() {
+    if (this.especialidad) {
+      this.medicosService.getByEspecialidad(this.especialidad).subscribe({
+        next: (res: any[]) => this.medicos = res,
+        error: () => this.notification.show('❌ No se pudieron cargar los médicos', 'danger')
+      });
+    }
+  }
+
+
+  esFechaValida(fechaStr: string): boolean {
+    const fecha = new Date(fechaStr);
+    const dia = fecha.getUTCDay(); 
+    return dia >= 1 && dia <= 5;
+  }
+
+  cargarHorarios() {
+    if (this.medicoId && this.fecha) {
+      if (!this.esFechaValida(this.fecha)) {
+        this.notification.show('❌ Solo puedes seleccionar días de lunes a viernes', 'danger');
+        this.horarios = [];
+        return;
+      }
+
+      const medico = this.medicos.find(m => m.id == this.medicoId);
+      this.tarifa = medico?.tarifaConsulta;
+
+      this.citasService.getDisponibilidad(this.medicoId, this.fecha).subscribe({
+        next: (res: any[]) => {
+          // ✅ Filtrar horarios solo entre 08:00 y 16:00
+          this.horarios = res.filter(h => {
+            const hora = parseInt(h.split(':')[0], 10);
+            return hora >= 8 && hora <= 16;
+          });
+        },
+        error: () => this.notification.show('❌ No se pudieron cargar los horarios', 'danger')
+      });
+    }
+  }
 
   crearCita() {
     if (!this.fecha || !this.hora || !this.motivo || !this.medicoId) {

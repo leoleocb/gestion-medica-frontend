@@ -2,24 +2,44 @@
   <h3 class="mb-3 text-primary">➕ Nueva Cita</h3>
 
   <form (ngSubmit)="crearCita()">
+    <!-- Especialidad -->
+    <div class="mb-3">
+      <label class="form-label">Especialidad</label>
+      <select class="form-select" [(ngModel)]="especialidad" name="especialidad" (change)="cargarMedicos()">
+        <option value="">Seleccione una especialidad</option>
+        <option *ngFor="let e of especialidades" [value]="e">{{ e }}</option>
+      </select>
+    </div>
+
+    <!-- Médico -->
+    <div class="mb-3" *ngIf="medicos.length > 0">
+      <label class="form-label">Médico</label>
+      <select class="form-select" [(ngModel)]="medicoId" name="medicoId" (change)="cargarHorarios()">
+        <option value="">Seleccione un médico</option>
+        <option *ngFor="let m of medicos" [value]="m.id">{{ m.nombre }} {{ m.apellido }}</option>
+      </select>
+      <div class="mt-2 text-muted" *ngIf="tarifa">Tarifa: S/ {{ tarifa }}</div>
+    </div>
+
+    <!-- Fecha -->
     <div class="mb-3">
       <label class="form-label">Fecha</label>
-      <input type="date" [(ngModel)]="fecha" name="fecha" class="form-control" required>
+      <input type="date" [(ngModel)]="fecha" name="fecha" class="form-control" (change)="cargarHorarios()">
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">Hora</label>
-      <input type="time" [(ngModel)]="hora" name="hora" class="form-control" required>
+    <!-- Horarios disponibles -->
+    <div class="mb-3" *ngIf="horarios.length > 0">
+      <label class="form-label">Horario</label>
+      <select class="form-select" [(ngModel)]="hora" name="hora">
+        <option value="">Seleccione un horario</option>
+        <option *ngFor="let h of horarios" [value]="h">{{ h }}</option>
+      </select>
     </div>
 
+    <!-- Motivo -->
     <div class="mb-3">
       <label class="form-label">Motivo</label>
       <input type="text" [(ngModel)]="motivo" name="motivo" class="form-control" required>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Médico ID</label>
-      <input type="number" [(ngModel)]="medicoId" name="medicoId" class="form-control" required>
     </div>
 
     <button type="submit" class="btn btn-primary w-100">Guardar Cita</button>
