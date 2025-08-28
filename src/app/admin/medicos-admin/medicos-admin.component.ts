@@ -13,7 +13,7 @@ import { NotificationService } from '../../core/services/notification.service';
 })
 export class MedicosAdminComponent implements OnInit {
   medicos: any[] = [];
-  medico: any = { nombre: '', apellido: '', numeroLicencia: '', telefono: '', email: '', especialidad: '' };
+  medico: any = { nombre: '', apellido: '', numeroLicencia: '', telefono: '', email: '', especialidad: '', tarifaConsulta: 0, disponible: true };
   editMode = false;
   selectedId: number | null = null;
 
@@ -35,7 +35,7 @@ export class MedicosAdminComponent implements OnInit {
 
   guardar() {
     if (!this.medico.nombre || !this.medico.numeroLicencia) {
-      this.notification.show('❌ Todos los campos son obligatorios', 'danger');
+      this.notification.show('❌ Nombre y Licencia son obligatorios', 'danger');
       return;
     }
 
@@ -79,7 +79,7 @@ export class MedicosAdminComponent implements OnInit {
   }
 
   resetForm() {
-    this.medico = { nombre: '', apellido: '', numeroLicencia: '', telefono: '', email: '', especialidad: '' };
+    this.medico = { nombre: '', apellido: '', numeroLicencia: '', telefono: '', email: '', especialidad: '', tarifaConsulta: 0, disponible: true };
     this.editMode = false;
     this.selectedId = null;
   }

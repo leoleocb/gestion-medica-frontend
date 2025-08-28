@@ -3,13 +3,33 @@
 
   <form (ngSubmit)="guardar()" class="mb-4">
     <div class="row g-2">
-      <div class="col-md-2"><input type="text" [(ngModel)]="medico.nombre" name="nombre" class="form-control" placeholder="Nombre" required></div>
-      <div class="col-md-2"><input type="text" [(ngModel)]="medico.apellido" name="apellido" class="form-control" placeholder="Apellido"></div>
-      <div class="col-md-2"><input type="text" [(ngModel)]="medico.numeroLicencia" name="numeroLicencia" class="form-control" placeholder="Licencia" required></div>
-      <div class="col-md-2"><input type="text" [(ngModel)]="medico.telefono" name="telefono" class="form-control" placeholder="Teléfono"></div>
-      <div class="col-md-2"><input type="email" [(ngModel)]="medico.email" name="email" class="form-control" placeholder="Email"></div>
-      <div class="col-md-2"><input type="text" [(ngModel)]="medico.especialidad" name="especialidad" class="form-control" placeholder="Especialidad"></div>
+      <div class="col-md-2">
+        <input type="text" [(ngModel)]="medico.nombre" name="nombre" class="form-control" placeholder="Nombre" required>
+      </div>
+      <div class="col-md-2">
+        <input type="text" [(ngModel)]="medico.apellido" name="apellido" class="form-control" placeholder="Apellido">
+      </div>
+      <div class="col-md-2">
+        <input type="text" [(ngModel)]="medico.numeroLicencia" name="numeroLicencia" class="form-control" placeholder="Licencia" required>
+      </div>
+      <div class="col-md-2">
+        <input type="text" [(ngModel)]="medico.telefono" name="telefono" class="form-control" placeholder="Teléfono">
+      </div>
+      <div class="col-md-2">
+        <input type="email" [(ngModel)]="medico.email" name="email" class="form-control" placeholder="Email">
+      </div>
+      <div class="col-md-2">
+        <input type="text" [(ngModel)]="medico.especialidad" name="especialidad" class="form-control" placeholder="Especialidad">
+      </div>
+      <div class="col-md-2">
+        <input type="number" [(ngModel)]="medico.tarifaConsulta" name="tarifaConsulta" class="form-control" placeholder="Tarifa S/" step="0.01" required>
+      </div>
+      <div class="col-md-2 d-flex align-items-center">
+        <label class="form-check-label me-2">Disponible</label>
+        <input type="checkbox" class="form-check-input" [(ngModel)]="medico.disponible" name="disponible">
+      </div>
     </div>
+
     <div class="mt-2">
       <button type="submit" class="btn btn-primary">{{ editMode ? 'Actualizar' : 'Guardar' }}</button>
     </div>
@@ -24,6 +44,8 @@
         <th>Teléfono</th>
         <th>Email</th>
         <th>Especialidad</th>
+        <th>Tarifa</th>
+        <th>Disponible</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -35,6 +57,12 @@
         <td>{{ m.telefono }}</td>
         <td>{{ m.email }}</td>
         <td>{{ m.especialidad }}</td>
+        <td>S/ {{ m.tarifaConsulta }}</td>
+        <td>
+          <span [class.text-success]="m.disponible" [class.text-danger]="!m.disponible">
+            {{ m.disponible ? 'Sí' : 'No' }}
+          </span>
+        </td>
         <td>
           <button class="btn btn-sm btn-warning me-2" (click)="editar(m)">Editar</button>
           <button class="btn btn-sm btn-danger" (click)="eliminar(m.id)">Eliminar</button>
