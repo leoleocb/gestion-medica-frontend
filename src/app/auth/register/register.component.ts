@@ -8,7 +8,7 @@ import { NotificationService } from '../../core/services/notification.service';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -26,7 +26,14 @@ export class RegisterComponent implements OnInit {
     this.form = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      numeroIdentificacion: ['', Validators.required],
+      numeroIdentificacion: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(8)
+        ]
+      ],
       fechaNacimiento: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
@@ -37,6 +44,14 @@ export class RegisterComponent implements OnInit {
     const pass = control.get('password')?.value;
     const confirm = control.get('confirmPassword')?.value;
     return pass === confirm ? null : { mismatch: true };
+  }
+
+ 
+  onlyNumbers(event: KeyboardEvent) {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
   }
 
   registrar() {

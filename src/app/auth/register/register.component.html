@@ -17,9 +17,22 @@
 
         <div class="row g-2">
           <div class="col-md-6 mb-3">
-            <label class="form-label">N° Identificación</label>
-            <input type="text" class="form-control" formControlName="numeroIdentificacion">
+            <label class="form-label">N° Identificación (DNI)</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              formControlName="numeroIdentificacion" 
+              maxlength="8"
+              (keypress)="onlyNumbers($event)">
+            
+            <!-- Errores -->
+            <div *ngIf="form.get('numeroIdentificacion')?.touched && form.get('numeroIdentificacion')?.invalid" class="text-danger small">
+              <div *ngIf="form.get('numeroIdentificacion')?.errors?.['required']">❌ El DNI es obligatorio</div>
+              <div *ngIf="form.get('numeroIdentificacion')?.errors?.['minlength']">❌ El DNI debe tener 8 dígitos</div>
+              <div *ngIf="form.get('numeroIdentificacion')?.errors?.['maxlength']">❌ El DNI debe tener máximo 8 dígitos</div>
+            </div>
           </div>
+
           <div class="col-md-6 mb-3">
             <label class="form-label">Fecha de Nacimiento</label>
             <input type="date" class="form-control" formControlName="fechaNacimiento">
@@ -35,20 +48,19 @@
             <label class="form-label">Confirmar Contraseña</label>
             <input type="password" class="form-control" formControlName="confirmPassword">
             <div *ngIf="form.hasError('mismatch') && form.get('confirmPassword')?.touched" class="text-danger small">
-              Las contraseñas no coinciden
+              ❌ Las contraseñas no coinciden
             </div>
           </div>
         </div>
 
-        <button class="btn btn-success w-100">Registrarse</button>
+        <button class="btn btn-success w-100" [disabled]="form.invalid">Registrarse</button>
       </form>
 
-<div class="mt-3 text-center">
-  <button class="btn btn-outline-secondary w-100" routerLink="/auth/login">
-    ¿Ya tienes cuenta? 🔑 Inicia sesión aquí
-  </button>
-</div>
-
+      <div class="mt-3 text-center">
+        <button class="btn btn-outline-secondary w-100" routerLink="/auth/login">
+          ¿Ya tienes cuenta? 🔑 Inicia sesión aquí
+        </button>
+      </div>
     </div>
   </div>
 </div>
