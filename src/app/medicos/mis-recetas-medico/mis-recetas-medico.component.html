@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <h3 class="mb-3 text-primary">💊 Mis Recetas Emitidas</h3>
+
+  <div *ngIf="loading" class="alert alert-info">Cargando recetas...</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <div *ngIf="recetas.length > 0; else noRecetas">
+    <div *ngFor="let r of recetas" class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Receta #{{ r.id }}</h5>
+        <p><strong>Fecha Emisión:</strong> {{ r.fechaEmision }}</p>
+        <p><strong>Fecha Caducidad:</strong> {{ r.fechaCaducidad }}</p>
+        <p><strong>Paciente:</strong> {{ r.paciente?.nombre }}</p>
+
+        <h6>Medicamentos</h6>
+        <ul class="list-group">
+          <li *ngFor="let i of r.items" class="list-group-item">
+            {{ i.medicamento?.nombre }} - {{ i.dosis }} ({{ i.frecuencia }})
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noRecetas>
+    <div class="alert alert-warning">No has emitido recetas aún.</div>
+  </ng-template>
+</div>

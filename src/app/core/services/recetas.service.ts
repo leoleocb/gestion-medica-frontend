@@ -19,6 +19,10 @@ export class RecetasService {
     return this.http.get<any[]>(`${this.apiUrl}/mis-recetas`);
   }
 
+  getMisRecetasMedico(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/mis-recetas-medico`);
+  }
+
   getById(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
@@ -30,8 +34,8 @@ export class RecetasService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
-  createReceta(pacienteId: number, receta: any) {
-  return this.http.post(`${this.apiUrl}/paciente/${pacienteId}`, receta);
-}
 
+  createReceta(pacienteId: number, receta: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/paciente/${pacienteId}`, receta);
+  }
 }
