@@ -22,4 +22,9 @@ export class ExpedientesService {
   nuevaEntrada(idPaciente: number, data: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/paciente/${idPaciente}/entrada`, data);
   }
+
+  
+  getAll(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/all`);
+  }
 }

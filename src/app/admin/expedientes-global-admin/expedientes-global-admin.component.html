@@ -1,29 +1,46 @@
 <div class="container mt-4">
-  <h3 class="text-danger">Todos los Expedientes</h3>
+  <h3 class="mb-3 text-primary">📂 Expedientes Globales</h3>
 
   <div *ngIf="loading" class="alert alert-info">Cargando expedientes...</div>
-  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <div *ngIf="!loading && expedientes.length === 0" class="alert alert-warning">
+    No hay expedientes registrados.
+  </div>
 
   <div *ngFor="let e of expedientes" class="card mb-3">
     <div class="card-body">
-      <h5>{{ e.nombrePaciente }}</h5>
-      <p><b>N° Identificación:</b> {{ e.numeroIdentificacion }}</p>
-      <p><b>Fecha Nacimiento:</b> {{ e.fechaNacimiento }}</p>
+      <h5 class="card-title">👤 {{ e.nombrePaciente }}</h5>
+      <p><strong>DNI:</strong> {{ e.numeroIdentificacion }}</p>
+      <p><strong>Fecha Nacimiento:</strong> {{ e.fechaNacimiento }}</p>
 
-      <h6>Alergias:</h6>
+      <h6>Alergias</h6>
       <ul>
         <li *ngFor="let a of e.alergias">{{ a.nombre }} - {{ a.descripcion }}</li>
       </ul>
 
-      <h6>Enfermedades:</h6>
+      <h6>Enfermedades</h6>
       <ul>
-        <li *ngFor="let enf of e.enfermedades">{{ enf.nombre }} - {{ enf.descripcion }}</li>
+        <li *ngFor="let en of e.enfermedades">{{ en.nombre }} - {{ en.descripcion }}</li>
       </ul>
 
-      <h6>Citas:</h6>
-      <ul>
-        <li *ngFor="let c of e.citas">{{ c.fecha }} {{ c.hora }} - {{ c.motivo }} ({{ c.estado }})</li>
-      </ul>
+      <h6>Citas</h6>
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Motivo</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of e.citas">
+            <td>{{ c.fecha }}</td>
+            <td>{{ c.hora }}</td>
+            <td>{{ c.motivo }}</td>
+            <td>{{ c.estado }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

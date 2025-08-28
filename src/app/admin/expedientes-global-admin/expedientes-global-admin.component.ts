@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ExpedientesService } from '../../core/services/expedientes.service';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-expedientes-global-admin',
@@ -12,20 +13,24 @@ import { ExpedientesService } from '../../core/services/expedientes.service';
 export class ExpedientesGlobalAdminComponent implements OnInit {
   expedientes: any[] = [];
   loading = true;
-  error = '';
 
-  constructor(private expedientesService: ExpedientesService) {}
+  constructor(
+    private expedientesService: ExpedientesService,
+    private notification: NotificationService
+  ) {}
 
   ngOnInit(): void {
-    // No existe endpoint directo de "todos los expedientes",
-    // así que usamos pacientes y armamos sus expedientes
-    this.expedientesService.getMiExpediente().subscribe({
+    this.cargarExpedientes();
+  }
+
+  cargarExpedientes() {
+    this.expedientesService.getAll().subscribe({
       next: (res) => {
-        this.expedientes = Array.isArray(res) ? res : [res];
+        this.expedientes = res;
         this.loading = false;
       },
       error: () => {
-        this.error = 'No se pudieron cargar los expedientes';
+        this.notification.show('❌ No se pudieron cargar los expedientes', 'danger');
         this.loading = false;
       }
     });
