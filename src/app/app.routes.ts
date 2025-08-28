@@ -29,16 +29,11 @@ export const routes: Routes = [
     data: { roles: ['ROLE_MEDICO'] },
     children: [
       { path: 'citas', loadComponent: () => import('./medicos/citas-medico/citas-medico.component').then(m => m.CitasMedicoComponent) },
-      { path: 'atender/:id', loadComponent: () => import('./medicos/atender-paciente/atender-paciente.component').then(m => m.AtenderPacienteComponent) },
-      { path: 'recetas/:id', loadComponent: () => import('./medicos/emitir-receta/emitir-receta.component').then(m => m.EmitirRecetaComponent) },
       { path: 'pacientes', loadComponent: () => import('./medicos/pacientes-medico/pacientes-medico.component').then(m => m.PacientesMedicoComponent) },
       { path: 'expediente/:id', loadComponent: () => import('./medicos/expediente-paciente-medico/expediente-paciente-medico.component').then(m => m.ExpedientePacienteMedicoComponent) },
-      { 
-  path: 'mis-recetas', 
-  loadComponent: () => import('./medicos/mis-recetas-medico/mis-recetas-medico.component')
-    .then(m => m.MisRecetasMedicoComponent) 
-}
-
+      { path: 'atender/:id', loadComponent: () => import('./medicos/atender-paciente/atender-paciente.component').then(m => m.AtenderPacienteComponent) },
+      { path: 'recetas/:id', loadComponent: () => import('./medicos/emitir-receta/emitir-receta.component').then(m => m.EmitirRecetaComponent) },
+      { path: 'mis-recetas', loadComponent: () => import('./medicos/mis-recetas-medico/mis-recetas-medico.component').then(m => m.MisRecetasMedicoComponent) }
     ]
   },
 

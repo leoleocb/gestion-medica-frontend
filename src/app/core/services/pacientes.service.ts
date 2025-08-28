@@ -23,6 +23,10 @@ export class PacientesService {
     return this.http.get<any>(`${this.apiUrl}/perfil`);
   }
 
+  getMisPacientes(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiUrl}/medicos/mis-pacientes`);
+  }
+
   create(data: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, data);
   }

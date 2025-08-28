@@ -18,13 +18,13 @@ export class PacientesMedicoComponent implements OnInit {
   constructor(private pacientesService: PacientesService) {}
 
   ngOnInit(): void {
-    this.pacientesService.getAll().subscribe({
+    this.pacientesService.getMisPacientes().subscribe({
       next: (res) => {
         this.pacientes = res;
         this.loading = false;
       },
       error: () => {
-        this.error = 'No se pudo cargar la lista de pacientes';
+        this.error = '❌ No se pudo cargar la lista de pacientes asignados';
         this.loading = false;
       }
     });
